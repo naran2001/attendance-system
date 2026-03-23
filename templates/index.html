@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Attendance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>SyncTime</h2>
+            </div>
+            <nav>
+                <a href="#" class="nav-item active" data-target="dashboard">Dashboard</a>
+                <a href="#" class="nav-item" data-target="summary">Monthly Summary</a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Attendance Dashboard</h1>
+                <div class="date-picker-wrap">
+                    <label for="current-date">Date:</label>
+                    <input type="date" id="current-date">
+                </div>
+            </header>
+            
+            <section id="dashboard" class="view-section active">
+                <div class="actions-bar">
+                    <div class="card check-form">
+                        <h3>Quick Action</h3>
+                        <div class="form-group">
+                            <input type="text" id="employee-id" placeholder="Employee ID">
+                        </div>
+                        <div class="btn-group">
+                            <button id="btn-checkin" class="btn primary">Check In</button>
+                            <button id="btn-checkout" class="btn secondary">Check Out</button>
+                        </div>
+                        <div class="form-group toggle-advanced">
+                            <label><input type="checkbox" id="add-break"> Add break time (mins) on checkout</label>
+                            <input type="number" id="break-minutes" placeholder="Minutes" value="0" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card table-card">
+                    <div class="table-header">
+                        <h3>Today's Records</h3>
+                        <button id="btn-add-manual" class="btn outline">Add Manual Record</button>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="records-table">
+                            <thead>
+                                <tr>
+                                    <th>Emp ID</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Break</th>
+                                    <th>Total (hrs)</th>
+                                    <th>Late (min)</th>
+                                    <th>Early (min)</th>
+                                    <th>Overtime (min)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Data will be loaded here via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="summary" class="view-section" style="display: none;">
+                <div class="card table-card">
+                    <div class="table-header">
+                        <h3>Monthly Summary</h3>
+                        <div class="summary-actions">
+                            <input type="month" id="summary-month">
+                            <button id="btn-export" class="btn success">Export CSV</button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="summary-table">
+                            <thead>
+                                <tr>
+                                    <th>Emp ID</th>
+                                    <th>Days Worked</th>
+                                    <th>Total Hours</th>
+                                    <th>Late (mins)</th>
+                                    <th>Early (mins)</th>
+                                    <th>Overtime (mins)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Summary Data here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for Manual Entry -->
+    <div id="manual-modal" class="modal">
+        <div class="modal-content card">
+            <span class="close-btn">&times;</span>
+            <h2>Add Manual Record</h2>
+            <form id="manual-form">
+                <div class="form-group">
+                    <label>Employee ID*</label>
+                    <input type="text" id="m-emp-id" required>
+                </div>
+                <div class="form-group">
+                    <label>Date*</label>
+                    <input type="date" id="m-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Check In Time*</label>
+                    <input type="time" id="m-check-in" required>
+                </div>
+                <div class="form-group">
+                    <label>Check Out Time</label>
+                    <input type="time" id="m-check-out">
+                </div>
+                <div class="form-group">
+                    <label>Break Time (Mins)</label>
+                    <input type="number" id="m-break" value="0">
+                </div>
+                <button type="submit" class="btn primary full-width">Save Record</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
